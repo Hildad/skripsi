@@ -1,0 +1,78 @@
+perancangan Hilda
+
+TENTANG 
+display produk yang datanya diambil dari Lazada Indonesia,Shopee, Bukalapak
+Cara kerjanya :
+1. Membuat penelusuran sesuai kata kunci menggunakan metode BFS
+2. Mendapatkan link-link dari crawling setelah diolah diatas
+3. Isinya di simpan di indeks 
+4. Ditampilkan 
+
+Di display produk ada detail. Lalu di detail mengandung link untuk belanja ke marketplace
+
+PENGGUNA
+1. Admin
+2. Pengunjung
+
+FUNGSIONAL
+Admin
+---------
+1. Login dan logout
+2. Mengelola profil
+3. Menampilkan hasil searching pengunjung. Dan juga melihat berapa lama waktu crawlingnya
+4. Menampilkan hasil link dari searching
+5. Menampilkan hasil Kategori
+5. Menampilkan detail produk yang dilihat pengunjung
+6. Menampilkan grafik banyaknya yang mengunjungi lazada, shopee, dan bukalapak
+7. Menampilkan grafik jumlah rata-rata waktu yang digunakan setiap pencarian
+8. Mengelola pengaturan (Tampil,Ubah)
+
+Pengunjung
+--------------
+1. Menampilkan halaman utama yaitu berupa form searching
+2. Menampilkan semua produk yang disearching
+3. Menampilkan detail produk
+
+DATABASE 
+admin
+--------
+id_admin
+username_admin
+password_admin
+
+Pencarian
+-----------------------
+id__pencarian --- Pk
+tanggal_pencarian *datetime
+kata_pencarian
+lama_pencarian
+
+hasil
+-------------
+id_hasil 
+id_pencarian ---- fk 
+hasil_pencarian
+
+
+kategori
+------------
+id_kategori
+nama_kategori
+jumlah_kategori
+*data didapat dari hasil pencarian. Jika data sudah ada, maka tinggal ubah jumlah. Kalau belum ada, maka nambah data
+
+
+Pengaturan 
+--------------
+
+id_pemgaturan
+nama_pengaturan
+isi_pengaturan 
+foto_pengaturan
+
+
+
+
+
+
+Pengaturan

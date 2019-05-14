@@ -1,0 +1,65 @@
+/*
+Ada 2 untuk membuat css
+
+css untuk desktop dan mobile secara umum
+
+*/
+/* css style mobile*/
+body{
+	font-family: 'Open Sans', sans-serif;
+}
+
+#wrapper{
+	width: 100%;
+	background:#202020;
+}
+.navbar
+{
+	margin-bottom: 0px;
+}
+.navbar-side{
+	background: #202020;
+}
+.navbar-side ul li
+{
+	border-bottom: 1px solid rgba(107,108,109,0.19);
+
+}
+.navbar-side ul li:hover a
+{
+ color: #202020;
+}
+.navbar-side ul li a
+{
+	color: #fff;
+}
+#page-wrapper{
+	padding: 15px;
+	background:#f2f2f2;
+}
+#page-inner{
+	padding: 15px;
+	background:#fff;
+}
+/* Css untuk versi dekstop*/
+@media(min-width: 766px)
+{
+	#page-wrapper
+	{
+		margin: 0 0 0 260px;
+		min-height: 1000px;
+		padding: 15px;
+
+	}
+	#page-inner 
+	{
+		min-height: 900px;
+	}
+	.navbar-side
+	{
+		min-height: 1000px;
+		position: absolute;
+		z-index: 1px;
+		width: 260px;
+	}
+}
