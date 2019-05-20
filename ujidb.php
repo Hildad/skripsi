@@ -1,7 +1,9 @@
 <?php 
 include'config/class.php';
-$username=$_GET['username'];
-$password=$_GET['password'];
+$tgl_pencarian=$_GET['tgl_pencarian'];
+$kata_pencarian=$_GET['kata_pencarian'];
+$lama_pencarian=$_GET['lama_pencarian'];
+$hasil_pencarian=$_GET['hasil_pencarian'];
 
-$admin->tambah($username,$password);
+$pencarian->tambah($tgl_pencarian,$kata_pencarian,$lama_pencarian,$hasil_pencarian);
  ?>
