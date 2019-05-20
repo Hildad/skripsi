@@ -20,14 +20,5 @@
 		<th>Hasil Pencarian</th>
 		<th>:</th>
 		<td><?php echo $detail_pencarian['hasil_pencarian']; ?></td>
-	</tr><tr>
-		<th>Kategori</th>
-		<th>:</th>
-		<td><?php echo $detail_pencarian['kategori']; ?></td>
-	</tr>
-	<tr>
-		<th>Dataset</th>
-		<th>:</th>
-		<td><?php echo $detail_pencarian['dataset']; ?></td>
 	</tr>
 </table>

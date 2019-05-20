@@ -3,86 +3,24 @@ include "config/class.php";
 
 error_reporting(0);
 
-// include "vendor/autoload.php";
-// use NlpTools\Tokenizers\WhitespaceTokenizer;
-// use NlpTools\Models\FeatureBasedNB;
-// use NlpTools\Documents\TrainingSet;
-// use NlpTools\Documents\TokensDocument;
-// use NlpTools\FeatureFactories\DataAsFeatures;
-// use NlpTools\Classifiers\MultinomialNBClassifier;
+include "vendor/autoload.php";
+use NlpTools\Tokenizers\WhitespaceTokenizer;
+use NlpTools\Models\FeatureBasedNB;
+use NlpTools\Documents\TrainingSet;
+use NlpTools\Documents\TokensDocument;
+use NlpTools\FeatureFactories\DataAsFeatures;
+use NlpTools\Classifiers\MultinomialNBClassifier;
 
 unset($_SESSION['bukalapak']);
 
-//Mendapatkan waktu
-$time = microtime();
-$time = explode(' ', $time);
-$time = $time[1] + $time[0];
-$start = $time;
-$kata_kunci= $_GET['kata_kunci'];
 
-$kata_kunci_bukalapak = str_replace(" ", "+", $kata_kunci);
-if (!isset($_SESSION['bukalapak'][$kata_kunci_bukalapak])) {
-    $simpan="ya";
-} else {
-    $simpan="tidak";
-}
-if (!isset($_SESSION['bukalapak'][$kata_kunci_bukalapak])) 
-{
-    for ($i_b=1; $i_b<=2 ; $i_b++) 
-    { 
-        $url_bukalapak="https://www.bukalapak.com/products/s?from=omnisearch&page".$i_b."&search%5Bhashtag%5D=&search%5Bkeywords%5D=".$kata_kunci_bukalapak;
+// $data_nlp = $pencarian->tambah($hasil_dataset); 
+// echo "<pre>";
+// print_r($data_nlp);
+// echo "</pre>";
 
-        $crawling->ambil_halaman($url_bukalapak);
-        $ambil_bukalapak=$crawling->ambil_bukalapak();
-        $hasil_bukalapak[$i_b]=$ambil_bukalapak;
-    }
-    $_SESSION['bukalapak'][$kata_kunci_bukalapak]=$hasil_bukalapak;
-}
-else 
-{
-    $hasil_bukalapak =$_SESSION['bukalapak'][$kata_kunci_bukalapak];
-}
-
-$data_bukalapak=$crawling->tampil_bukalapak($hasil_bukalapak);
-
-
-
-$kata_kunci_shopee=str_replace(" ","%20", $kata_kunci);
-if (!isset($_SESSION['shopee'][$kata_kunci_shopee])) {
-    for ($i_s=1; $i_s<=2 ; $i_s++) { 
-        $url_shopee="https://shopee.co.id/search?keyword=".$kata_kunci_shopee."&page=".$i_s."&sortBy=relevancy";
-        $crawling->ambil_halaman($url_shopee);
-        $hasil_shopee[$i_s]=$crawling->ambil_shopee();
-    }
-    $_SESSION['shopee'][$kata_kunci_shopee]=$hasil_shopee;
-}
-else
-{
-    $hasil_shopee=$_SESSION['shopee'][$kata_kunci_shopee];
-}
-$data_shopee=$crawling->tampil_shopee($hasil_shopee);
-
-
-$kata_kunci_lazada = str_replace(" ", "%20", $kata_kunci);
-if (!isset($_SESSION['lazada'][$kata_kunci_lazada])) 
-{
-    for ($i_l=1; $i_l<=2 ; $i_l++) 
-    { 
-        $url_lazada="https://www.lazada.co.id/catalog/?_keyori=ss&from=input&page=".$i_l."&q=".$kata_kunci_lazada;
-
-        $crawling->ambil_halaman($url_lazada);
-        $ambil_lazada=$crawling->ambil_lazada();
-        $hasil_lazada[$i_l]=$ambil_lazada;
-    }
-    $_SESSION['lazada'][$kata_kunci_lazada]=$hasil_lazada;
-}
-else 
-{
-    $hasil_lazada =$_SESSION['lazada'][$kata_kunci_lazada];
-}
-
-$data_lazada=$crawling->tampil_lazada($hasil_lazada);
 ?>
+
 
 
 
@@ -127,19 +65,6 @@ $data_lazada=$crawling->tampil_lazada($hasil_lazada);
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <!-- <div class="box">
-                        <span class="box-header">
-                            <form class="form-inline" style="margin-left: 850px;" method="POST" onchange="this.form.submit();">
-                                <select class="form-control" name="urutkan">
-                                    <option value="">Urutkan Berdasarkan Harga</option>
-                                    <option value="<?php echo sort($data_produk['harga']) ?>">Harga Termurah</option>
-                                    <option value="">Harga Termahal</option>
-                                </select>
-                            </form>
-
-                        </span>
-
-                    </div> -->
 
                     <!-- Awal Slider Produk Bukalapak-->
 
@@ -151,22 +76,22 @@ $data_lazada=$crawling->tampil_lazada($hasil_lazada);
                         </div>
                         <div class="box-body">
                             <div class="row">
-                                <?php if (isset($data_bukalapak)): ?>
+                                <?php if (isset($data_nlp)): ?>
                                     <?php $no = 0; ?>
-                                    <?php foreach ($data_bukalapak['kelompok_bukalapak'] as $index_produk => $data_produk): ?>
+                                    <?php foreach ($data_nlp['bukalapak'] as $index_produk => $data_produk_nlp): ?>
                                         <div class="col-md-3">
                                             <div class="panel panel-default">
                                                 <div class="panel-body">
                                                     <div class="text-center">
                                                         <div class="image-product">
-                                                            <img src="<?php echo $data_produk['foto'] ?>" alt="" class="img-responsive">
+                                                            <img src="<?php echo $data_produk_nlp['foto'] ?>" alt="" class="img-responsive">
                                                         </div>
                                                         <h3 class="title-produk">
-                                                            <a href="<?php echo $data_produk['link'] ?>" title="<?php echo $data_produk['nama'] ?>" target="blank()" ><?php echo substr ($data_produk['nama'],0,40); ?>...</a>
+                                                            <a href="<?php echo $data_produk_nlp['link'] ?>" title="<?php echo $data_produk_nlp['nama'] ?>" target="blank()" ><?php echo substr ($data_produk['nama'],0,40); ?>...</a>
 
                                                         </h3>
-                                                        <span class="price-product"><?php echo $data_produk['harga']; ?></span>
-                                                        <a href="<?php echo $data_produk['link'] ?>" target="blank()" class="btn btn-default">Detail</a>
+                                                        <span class="price-product"><?php echo $data_produk_nlp['0']; ?></span>
+                                                       
                                                     </div>
                                                 </div>
                                             </div>
