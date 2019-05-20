@@ -11,6 +11,7 @@ use NlpTools\Documents\TokensDocument;
 use NlpTools\FeatureFactories\DataAsFeatures;
 use NlpTools\Classifiers\MultinomialNBClassifier;
 
+// $mysqli=new mysqli("localhost","root","","crawling") or die(mysqli_error($mysqli));
 $mysqli=new mysqli("localhost","hilda","1234hildalulus","hilda");
 
 
@@ -30,7 +31,7 @@ class pencarian extends utama
 
 	function tampil()
 	{
-		$ambil= $this->koneksi->query("SELECT * FROM pencarian ORDER BY id_pencarian DESC");
+		$ambil= $this->koneksi->query("SELECT * FROM pencarian ORDER BY id_pencarian DESC") or die(mysqli_error($this->koneksi));
 
 		while($pecah=$ambil->fetch_assoc())
 		{
@@ -41,7 +42,7 @@ class pencarian extends utama
 	}
 	function detail($id_pencarian)
 	{
-		$ambil= $this->koneksi->query("SELECT * FROM pencarian WHERE id_pencarian='$id_pencarian'");
+		$ambil= $this->koneksi->query("SELECT * FROM pencarian WHERE id_pencarian='$id_pencarian'")or die(mysqli_error($this->koneksi));
 
 		$pecah=$ambil->fetch_assoc();
 		return $pecah;	
@@ -283,6 +284,10 @@ class admin extends utama
 		{
 			return "gagal";
 		}
+	}
+	function tambah ($username,$password)
+	{
+		$this->koneksi->query("INSERT into admin (username,password) VALUES ('$username','$password')");
 	}
 
 	function ubah_profil($username,$password,$id_admin)
