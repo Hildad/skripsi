@@ -11,7 +11,7 @@ use NlpTools\Documents\TokensDocument;
 use NlpTools\FeatureFactories\DataAsFeatures;
 use NlpTools\Classifiers\MultinomialNBClassifier;
 
-$mysqli=new mysqli("localhost","root","","crawling");
+$mysqli=new mysqli("localhost","hilda","","1234hildalulus");
 
 
 class utama
