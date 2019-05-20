@@ -1,7 +1,7 @@
 <?php 
 session_start(); 
 date_default_timezone_set("Asia/Jakarta");
-error_reporting(0);
+// error_reporting(0);
 
 include "vendor/autoload.php";
 use NlpTools\Tokenizers\WhitespaceTokenizer;
