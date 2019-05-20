@@ -91,6 +91,7 @@ class pencarian extends utama
 						}
 
 						$b[$key_0][$key1][$key2][$key3]['harga'] = $a;
+						
 					}
 				}
 			}
@@ -98,10 +99,10 @@ class pencarian extends utama
 		
 		$data_encode = json_encode($b);
 
-		//menyimpan hasil dataset
-		//Bagian Kategorisasi Ambil datasetnya terlebih dahulu
+		// menyimpan hasil dataset
+		// Bagian Kategorisasi Ambil datasetnya terlebih dahulu
 
-		//kalo mau search di komen, tapi kalo mau buat dataset dihidupkan
+		// kalo mau search di komen, tapi kalo mau buat dataset dihidupkan
 		// if (file_exists('dataset_nlp')) {
 		// 	$dataset_nlp= file_get_contents('dataset_nlp');
 		// 	$dataset_nlp= json_decode($dataset_nlp);
@@ -111,76 +112,78 @@ class pencarian extends utama
 		// 	$dataset_nlp=[];
 		// }
 
-		$dataset_nlp=[]; // kalo mau buat dataset -> maka di komen , kalo mau searchh-> di hidupkan 
-		foreach ($data['hasil'] as $key_0 => $value_0) {
-			foreach ($value_0 as $key1 => $value1) {
-				foreach ($value1 as $key2 => $value2) {
-					foreach ($value2 as $key3 => $value3) {
-						$dataset[$key_0][$key1][$key2][$key3]['kategori'] =['wanita',$value3['nama']] ;
-						$dataset[$key_0][$key1][$key2][$key3]['kategori'] =['pria',$value3['nama']] ;
-						$dataset[$key_0][$key1][$key2][$key3]['kategori'] =['general',$value3['nama']] ;
+// 		$dataset_nlp=[]; // kalo mau buat dataset -> maka di komen , kalo mau searchh-> di hidupkan 
+// 		foreach ($data['hasil'] as $key_0 => $value_0) {
+// 			foreach ($value_0 as $key1 => $value1) {
+// 				foreach ($value1 as $key2 => $value2) {
+// 					foreach ($value2 as $key3 => $value3) {
+// 						$dataset[$key_0][$key1][$key2][$key3]['kategori'] =['wanita',$value3['nama']] ;
+// 						$dataset[$key_0][$key1][$key2][$key3]['kategori'] =['pria',$value3['nama']] ;
+// 						$dataset[$key_0][$key1][$key2][$key3]['kategori'] =['general',$value3['nama']] ;
 
-						$dataset_nlp[]=['wanita',$value3['nama']];
-						$dataset_nlp[]=['pria',$value3['nama']];
-						$dataset_nlp[]=['general',$value3['nama']];
-					}
-				}
-			}
-		}
-		// file_put_contents('dataset_nlp', json_encode($dataset_nlp));// kalo mau searching di komen
+// 						$dataset_nlp[]=['wanita',$value3['nama']];
+// 						$dataset_nlp[]=['pria',$value3['nama']];
+// 						$dataset_nlp[]=['general',$value3['nama']];
+// 					}
+// 				}
+// 			}
+// 		}
+// 		// file_put_contents('dataset_nlp', json_encode($dataset_nlp));// kalo mau searching di komen
 		
-$tset = new TrainingSet(); // will hold the training documents
-$tok = new WhitespaceTokenizer(); // will split into tokens
-$ff = new DataAsFeatures(); // see features in documentation
+// $tset = new TrainingSet(); // will hold the training documents
+// $tok = new WhitespaceTokenizer(); // will split into tokens
+// $ff = new DataAsFeatures(); // see features in documentation
 
-// ---------- Training ----------------
-foreach ($dataset_nlp as $d)
-{
-	$tset->addDocument(
-		$d[0], // class
-		new TokensDocument(
-		$tok->tokenize($d[1]) // The actual document
-	)
-	);
-}
-if (file_exists('model_nlp')) {
-	// echo "Tidak Membuat Model baru";
-	$model= file_get_contents('model_nlp');
-	$model= unserialize($model);
-}
-else
-{
-	// echo "Membuat Model baru";
-	$model = new FeatureBasedNB();
-} 	
- // train a Naive Bayes model
-// $model->train($ff,$tset);
-//Classification
-$cls = new MultinomialNBClassifier($ff,$model);
-$correct = 0;
-foreach ($dataset_nlp as $d)
-{
-    // predict if it is spam or ham
-	$prediction = $cls->classify(
-        array('wanita','pria','general'), // all possible classes
-        new TokensDocument(
-            $tok->tokenize($d[1]) // The document
-        )
-    );
-	if ($prediction==$d[0])
-		$correct ++;
-}
-	file_put_contents('model_nlp', serialize($model));
-	echo "<pre>";
-	printf("Accuracy: %.2f\n", 100*$correct / count($dataset_nlp));
-	print_r($dataset);
-	$hasil_dataset=json_encode($dataset);
-	echo "</pre>";
+// // ---------- Training ----------------
+// foreach ($dataset_nlp as $d)
+// {
+// 	$tset->addDocument(
+// 		$d[0], // class
+// 		new TokensDocument(
+// 		$tok->tokenize($d[1]) // The actual document
+// 	)
+// 	);
+// }
+// if (file_exists('model_nlp')) {
+// 	// echo "Tidak Membuat Model baru";
+// 	$model= file_get_contents('model_nlp');
+// 	$model= unserialize($model);
+// }
+// else
+// {
+// 	// echo "Membuat Model baru";
+// 	$model = new FeatureBasedNB();
+// } 	
+//  // train a Naive Bayes model
+// // $model->train($ff,$tset);
+// //Classification
+// $cls = new MultinomialNBClassifier($ff,$model);
+// $correct = 0;
+// foreach ($dataset_nlp as $d)
+// {
+//     // predict if it is spam or ham
+// 	$prediction = $cls->classify(
+//         array('wanita','pria','general'), // all possible classes
+//         new TokensDocument(
+//             $tok->tokenize($d[1]) // The document
+//         )
+//     );
+// 	if ($prediction==$d[0])
+// 		$correct ++;
+// }
+// 	file_put_contents('model_nlp', serialize($model));
+
+
+// 	echo "<pre>";
+// 	printf("Accuracy: %.2f\n", 100*$correct / count($dataset_nlp));
+// 	$hasil_dataset=json_encode($dataset_nlp);
+// 	echo "</pre>";
 	
 
 
-$this->koneksi->query("INSERT INTO pencarian (tgl_pencarian,kata_pencarian,lama_pencarian,hasil_pencarian,kategori,dataset) VALUES('$tgl_pencarian','$kata_pencarian','$lama_pencarian','$data_encode','$prediction','$hasil_dataset')") or die(mysqli_error($this->koneksi));
+$this->koneksi->query("INSERT INTO pencarian (tgl_pencarian,kata_pencarian,lama_pencarian,hasil_pencarian) VALUES('$tgl_pencarian','$kata_pencarian','$lama_pencarian','$data_encode')") or die(mysqli_error($this->koneksi));
 }
+
 
 function jumlah_pertanggal($tahunbulan)
 {
@@ -196,6 +199,8 @@ function hapuspencarian($id_pencarian)
 }
 }
 $pencarian= new pencarian($mysqli);
+
+
 
 class kategori extends utama
 {
@@ -256,6 +261,7 @@ class kategori extends utama
 $kategori=new kategori($mysqli);
 
 
+
 class admin extends utama
 {
 	function login($username,$password)
@@ -294,60 +300,6 @@ class admin extends utama
 
 $admin=new admin($mysqli);
 
-class pengaturan extends utama
-{
-	function tampil()
-	{
-		$ambil=$this->koneksi->query("SELECT * FROM pengaturan");
-
-		while ($pecah=$ambil->fetch_assoc()) 
-		{
-			$data[]=$pecah;
-		}
-		return $data;
-	}
-	function detail($id_pengaturan)
-	{
-		$ambil=$this->koneksi->query("SELECT * FROM pengaturan where id_pengaturan='$id_pengaturan'");
-
-		$pecah=$ambil->fetch_assoc();
-		return $pecah;
-	}
-	function ubah($nama_pengaturan,$isi_pengaturan,$foto_pengaturan)
-	{
-		//Ambil nama
-		$nama_foto=$foto_pengaturan['name'];
-
-		//ambil lokasi
-		$lokasi_foto =$foto_pengaturan['tmp_name'];
-
-		//jika lokasi tidak kosong, maka ubah foto. Selain itu maka tidak ubah foto
-
-		if (!empty($lokasi_foto)) 
-		{
-			//panggil fungsi detail untuk mengetahui data lama
-			$data_lama=$this->detail($id_pengaturan);
-			// setelah itu ambil foto lama
-			$foto_lama= $data_lama['foto_pengaturan'];
-			//jika foto lama ada di folder img, maka hapus
-			if (file_exists("assets/img/".$foto_lama))
-			{
-				unlink("assets/img/".$foto_lama);
-			}
-			//mengupload foto baru 
-			move_uploaded_file($lokasi_foto, "assets/img/".$nama_foto);
-
-			//menyimpan ke DB
-			$this->koneksi->query("UPDATE pengaturan SET nama_pengaturan='$nama_pengaturan',isi_pengaturan='$isi_pengaturan',foto_pengaturan='$nama_foto' where id_pengaturan='$id_pengaturan' ");
-		}
-
-		else
-		{
-			$this->koneksi->query("UPDATE pengaturan SET nama_pengaturan='$nama_pengaturan',isi_pengaturan='$isi_pengaturan' where id_pengaturan='$id_pengaturan' ");
-		}
-	}
-}
-$pengaturan=new pengaturan($mysqli);
 
 
 class crawling extends utama
@@ -435,16 +387,19 @@ class crawling extends utama
 		$regex_foto='/<\s*img[^>]*>(.*?)/';
 		preg_match_all($regex_foto, $data, $foto );
 
+		
 		// 4. Mengolah arraynya 
 		$semua['nama']=$nama_produk[1];
 		$semua['link']=$link_produk[1];
 		$semua['harga']=$harga[1];
 
+
+
 		foreach ($foto[0]as $key => $value)
 		{
-			$doc = new DOMDocument();
-			$doc->loadHTML($value);
-			$imageTags = $doc->getElementsByTagName('img');
+			$doc = new DOMDocument(); // Membuat objek baru
+			$doc->loadHTML($value); // Memuat html string bernilai value 
+			$imageTags = $doc->getElementsByTagName('img'); //Mencari semua elemen berdasarkan nama lokal yang diberikan yaitu img. 
 			$img="";
 			foreach ($imageTags as $tag ) {
 				if(!empty($tag->getAttribute('data-src')))
@@ -470,6 +425,7 @@ class crawling extends utama
 		return $hasil;
 		
 	}
+
 
 	function ambil_shopee()
 	{
@@ -536,8 +492,6 @@ class crawling extends utama
 			$semua['foto'][$key]=$value['image'];
 		}
 
-		// $regex_foto='/class="_1T9dHf[^>]*" style="(.*?)>/';
-		// preg_match_all($regex_foto, $data, $foto);
 
 		$regex_nama='/<div class="c16H9d"><a age="0"[^>]*>(.*?)<\/\s*div>/';
 		preg_match_all($regex_nama, $data, $nama);
@@ -546,9 +500,7 @@ class crawling extends utama
 		$regex_harga='/<div class="c3gUW0"><span class="c13VH6">(.*?)<\/\s*div>/';
 		preg_match_all($regex_harga, $data, $harga);
 
-		// foreach ($foto[1] as $key => $value) {
-		// 	$semua['foto'][$key]=substr($value, 21,64);
-		// }
+		
 		$semua['link']=$link[1];
 		$semua['nama']=$nama[1];
 		$semua['harga']=$harga[1];
@@ -568,7 +520,7 @@ class crawling extends utama
 
 	function tampil_bukalapak($hasil_bukalapak)
 	{
-		//Membuat filter data yaitu hanya yang mengandung kata di kata kunci
+		//Membuat filter data yaitu hanya yang mengandung kata di kata kunci sepatu
 		foreach ($hasil_bukalapak as $page => $value) {
 			foreach ($value as $key => $value2) {
 				if (stristr($value2['nama'],'sepatu') AND !stristr($value2['nama'],'tas') AND !stristr($value2['nama'],'baju')) {
@@ -619,6 +571,9 @@ class crawling extends utama
 				$data_return['pagination']=$pagination_bukalapak;
 				$data_return['kelompok_bukalapak']=$kelompok_bukalapak;
 				return $data_return;
+
+			
+
 			} 	
 		}
 		
