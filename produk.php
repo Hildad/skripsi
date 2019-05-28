@@ -1,15 +1,15 @@
 <?php 
 include "config/class.php";
 
-error_reporting(0);
+// error_reporting(0);
 
-// include "vendor/autoload.php";
-// use NlpTools\Tokenizers\WhitespaceTokenizer;
-// use NlpTools\Models\FeatureBasedNB;
-// use NlpTools\Documents\TrainingSet;
-// use NlpTools\Documents\TokensDocument;
-// use NlpTools\FeatureFactories\DataAsFeatures;
-// use NlpTools\Classifiers\MultinomialNBClassifier;
+include "vendor/autoload.php";
+use NlpTools\Tokenizers\WhitespaceTokenizer;
+use NlpTools\Models\FeatureBasedNB;
+use NlpTools\Documents\TrainingSet;
+use NlpTools\Documents\TokensDocument;
+use NlpTools\FeatureFactories\DataAsFeatures;
+use NlpTools\Classifiers\MultinomialNBClassifier;
 
 unset($_SESSION['bukalapak']);
 
@@ -82,6 +82,12 @@ else
 }
 
 $data_lazada=$crawling->tampil_lazada($hasil_lazada);
+
+$kategorisasi=$kategori->nlp();
+
+        echo "<pre>";
+        print_r($kategorisasi);
+        echo "</pre>";
 ?>
 
 
