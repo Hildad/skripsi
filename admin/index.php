@@ -40,6 +40,7 @@ include "../vendor/autoload.php";
           <li><a href="index.php?halaman=profil"><i class="fa fa-user"></i> Profil</a></li>
           <li><a href="index.php?halaman=pencarian"><i class="fa fa-tags"></i> Hasil Pencarian</a></li>
           <li><a href="index.php?halaman=kategori"><i class="fa fa-tags"></i>  Hasil Kategori</a></li>
+          <li><a href="index.php?halaman=kategorisasi"><i class="fa fa-tags"></i>  Kategorisasi NLP</a></li>
           <li><a href="index.php?halaman=grafik"><i class="fa fa-cube"></i>  Grafik</a></li>
           <!-- <li><a href="index.php?halaman=pengaturan"><i class="fa fa-cog"></i>  Pengaturan</a></li> -->
           <li><a href="index.php?halaman=logout"><i class="fa fa-sign-out"></i> Logout</a></li>
@@ -78,6 +79,14 @@ include "../vendor/autoload.php";
           elseif ($_GET['halaman']=="kategori") 
           {
             include 'kategori.php';
+          }
+          elseif ($_GET['halaman']=="kategorisasi") {
+            include 'kategorisasi.php';
+          }
+          elseif ($_GET['halaman']=="hapusnlp") {
+            $id_nlp=$_GET['id_nlp'];
+            $kategori->hapusnlp($id_nlp);
+            echo "<script> location='index.php?halaman=kategorisasi'</script>";
           }
           elseif ($_GET['halaman']=="hapuskategori") {
             $id_kategori=$_GET['id_kategori'];
